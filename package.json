@@ -1,0 +1,388 @@
+{
+  "name": "growi-vscode-integration",
+  "displayName": "GROWI Integration",
+  "description": "GROWIウィキシステムとの統合によりVS Code内でページの閲覧・編集・管理を可能にする拡張機能",
+  "version": "0.1.0",
+  "publisher": "growi",
+  "author": {
+    "name": "GROWI Team",
+    "email": "support@growi.org",
+    "url": "https://growi.org"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/growi/vscode-growi-integration#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/growi/vscode-growi-integration.git"
+  },
+  "bugs": {
+    "url": "https://github.com/growi/vscode-growi-integration/issues"
+  },
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other",
+    "Snippets",
+    "Extension Packs"
+  ],
+  "keywords": [
+    "growi",
+    "wiki",
+    "markdown",
+    "documentation",
+    "collaboration",
+    "knowledge-management",
+    "real-time",
+    "websocket",
+    "search",
+    "preview"
+  ],
+  "activationEvents": [
+    "*"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "growiContainer",
+          "title": "GROWI",
+          "icon": "$(book)"
+        }
+      ]
+    },
+    "views": {
+      "growiContainer": [
+        {
+          "id": "growiExplorer",
+          "name": "ページエクスプローラー",
+          "icon": "$(notebook)"
+        },
+        {
+          "id": "growiConnections",
+          "name": "接続管理",
+          "icon": "$(plug)"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "growi.connect",
+        "title": "GROWI接続",
+        "icon": "$(plug)"
+      },
+      {
+        "command": "growi.disconnect",
+        "title": "GROWI切断",
+        "icon": "$(debug-disconnect)"
+      },
+      {
+        "command": "growi.refreshTree",
+        "title": "更新",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "growi.createPage",
+        "title": "新規ページ作成",
+        "icon": "$(add)"
+      },
+      {
+        "command": "growi.editPage",
+        "title": "ページ編集",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "growi.deletePage",
+        "title": "ページ削除",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "growi.previewPage",
+        "title": "プレビュー",
+        "icon": "$(preview)"
+      },
+      {
+        "command": "growi.syncPage",
+        "title": "ページ同期",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "growi.enableRealtimeSync",
+        "title": "リアルタイム同期を有効化",
+        "icon": "$(radio-tower)"
+      },
+      {
+        "command": "growi.disableRealtimeSync",
+        "title": "リアルタイム同期を無効化",
+        "icon": "$(circle-slash)"
+      },
+      {
+        "command": "growi.showWebSocketStatus",
+        "title": "WebSocket接続状態を表示",
+        "icon": "$(info)"
+      },
+      {
+        "command": "growi.runSecurityAudit",
+        "title": "セキュリティ監査を実行",
+        "icon": "$(shield)"
+      },
+      {
+        "command": "growi.validateInput",
+        "title": "入力値を検証",
+        "icon": "$(verified)"
+      },
+      {
+        "command": "growi.addConnection",
+        "title": "接続を追加",
+        "icon": "$(add)"
+      },
+      {
+        "command": "growi.removeConnection",
+        "title": "接続を削除",
+        "icon": "$(trash)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "growi.refreshTree",
+          "when": "view == growiExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "growi.createPage",
+          "when": "view == growiExplorer",
+          "group": "navigation"
+        },
+        {
+          "command": "growi.addConnection",
+          "when": "view == growiConnections",
+          "group": "navigation"
+        },
+        {
+          "command": "growi.connect",
+          "when": "view == growiConnections",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "growi.editPage",
+          "when": "view == growiExplorer && viewItem == growiPage",
+          "group": "1_edit"
+        },
+        {
+          "command": "growi.previewPage",
+          "when": "view == growiExplorer && viewItem == growiPage",
+          "group": "1_edit"
+        },
+        {
+          "command": "growi.createPage",
+          "when": "view == growiExplorer && viewItem == growiPage",
+          "group": "2_create"
+        },
+        {
+          "command": "growi.deletePage",
+          "when": "view == growiExplorer && viewItem == growiPage",
+          "group": "3_modify"
+        },
+        {
+          "command": "growi.connect",
+          "when": "view == growiConnections && viewItem == growiConnection",
+          "group": "1_connection"
+        },
+        {
+          "command": "growi.disconnect",
+          "when": "view == growiConnections && viewItem == growiConnection",
+          "group": "1_connection"
+        },
+        {
+          "command": "growi.removeConnection",
+          "when": "view == growiConnections && viewItem == growiConnection",
+          "group": "2_manage"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "growi.createPage",
+        "key": "ctrl+shift+n",
+        "mac": "cmd+shift+n",
+        "when": "growi:connected"
+      },
+      {
+        "command": "growi.syncPage",
+        "key": "ctrl+shift+s",
+        "mac": "cmd+shift+s",
+        "when": "editorTextFocus && resourceExtname == .md"
+      },
+      {
+        "command": "growi.connect",
+        "key": "ctrl+shift+c",
+        "mac": "cmd+shift+c"
+      }
+    ],
+    "configuration": {
+      "title": "GROWI Integration",
+      "properties": {
+        "growi.connections": {
+          "type": "array",
+          "default": [],
+          "description": "GROWI接続設定のリスト",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "接続ID"
+              },
+              "name": {
+                "type": "string",
+                "description": "表示名"
+              },
+              "serverUrl": {
+                "type": "string",
+                "description": "GROWIサーバーURL"
+              },
+              "authType": {
+                "type": "string",
+                "enum": [
+                  "token"
+                ],
+                "default": "token",
+                "description": "認証方式（API Tokenのみ）"
+              }
+            }
+          }
+        },
+        "growi.realtime": {
+          "type": "object",
+          "description": "リアルタイム同期設定",
+          "properties": {
+            "enableRealTimeUpdates": {
+              "type": "boolean",
+              "default": true,
+              "description": "リアルタイム更新を有効化"
+            },
+            "enablePushNotifications": {
+              "type": "boolean",
+              "default": true,
+              "description": "プッシュ通知を有効化"
+            },
+            "enableAutoRefresh": {
+              "type": "boolean",
+              "default": true,
+              "description": "自動リフレッシュを有効化"
+            },
+            "notificationLevel": {
+              "type": "string",
+              "enum": [
+                "all",
+                "important",
+                "none"
+              ],
+              "default": "important",
+              "description": "通知レベル (all: 全て, important: 重要なもののみ, none: なし)"
+            }
+          }
+        },
+        "growi.activeConnectionId": {
+          "type": "string",
+          "description": "アクティブな接続ID"
+        },
+        "growi.syncSettings": {
+          "type": "object",
+          "default": {
+            "autoSync": true,
+            "syncInterval": 30000
+          },
+          "properties": {
+            "autoSync": {
+              "type": "boolean",
+              "description": "自動同期を有効にする"
+            },
+            "syncInterval": {
+              "type": "number",
+              "description": "同期間隔（ミリ秒）"
+            }
+          }
+        },
+        "growi.displaySettings": {
+          "type": "object",
+          "default": {
+            "showIcons": true,
+            "sortBy": "name",
+            "filterBy": []
+          },
+          "properties": {
+            "showIcons": {
+              "type": "boolean",
+              "description": "アイコン表示"
+            },
+            "sortBy": {
+              "type": "string",
+              "enum": [
+                "name",
+                "updatedAt"
+              ],
+              "description": "ソート方式"
+            },
+            "filterBy": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "フィルター条件"
+            }
+          }
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run webpack",
+    "compile": "tsc -p ./",
+    "webpack": "webpack --mode production --devtool hidden-source-map",
+    "webpack-dev": "webpack --mode development --watch",
+    "watch": "tsc -watch -p ./",
+    "pretest": "npm run compile && npm run lint",
+    "lint": "eslint src --ext ts",
+    "test": "jest",
+    "test:unit": "jest --testPathPattern=unit",
+    "test:integration": "jest --testPathPattern=integration",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:vscode": "node ./out/test/runTest.js",
+    "package": "vsce package --out dist/",
+    "publish": "vsce publish",
+    "clean": "rimraf out dist coverage",
+    "security-audit": "npm audit && npm run test:security",
+    "test:security": "npm run compile && node out/test/security.js",
+    "prepare": "npm run clean && npm run compile"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "@types/markdown-it": "^14.1.2",
+    "@types/node": "^16.x",
+    "@types/vscode": "^1.60.0",
+    "@types/ws": "^8.18.1",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "@vscode/test-electron": "^1.6.2",
+    "@vscode/vsce": "^2.15.0",
+    "eslint": "^8.1.0",
+    "jest": "^30.0.5",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^29.4.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^4.4.4",
+    "webpack": "^5.101.0",
+    "webpack-cli": "^6.0.1"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "markdown-it": "^13.0.0",
+    "ws": "^8.14.0"
+  }
+}

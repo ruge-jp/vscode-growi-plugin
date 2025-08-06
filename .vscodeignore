@@ -1,0 +1,42 @@
+# ソース管理
+.git/
+.github/
+
+# 開発用ディレクトリ・ファイル
+.vscode/
+.claude/
+.kiro/
+.serena/
+src/
+node_modules/
+out/test/
+dist/
+coverage/
+
+# 設定ファイル
+.gitignore
+.vscodeignore
+.eslintrc.json
+jest.config.js
+tsconfig.json
+webpack.config.js
+*.tsbuildinfo
+
+# ログ・バックアップ・一時ファイル
+*.log
+log.txt
+*.tar.gz
+*.vsix
+.DS_Store
+Thumbs.db
+
+# ドキュメント (必要なものだけ含める)
+**/*.md
+!README.md
+!CHANGELOG.md
+!LICENSE
+
+# その他
+package-lock.json
+yarn.lock
+.npm/
